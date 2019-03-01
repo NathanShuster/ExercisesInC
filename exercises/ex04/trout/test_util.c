@@ -28,7 +28,6 @@ case  1: return("host unreachable");
 */
 
 static char *test1() {
-  icmpcode_v4
     char* res = icmpcode_v4(1);
     char* message = "test1 failed: should be 'host unreachable'";
     mu_assert(message, res == "host unreachable");
