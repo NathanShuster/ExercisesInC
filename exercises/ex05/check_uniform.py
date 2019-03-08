@@ -1,7 +1,6 @@
 #!/usr/bin/python
 
 """Read floating point values and plot their CDF.
-
 Copyright 2016 Allen B. Downey
 License: GNU GPLv3 http://www.gnu.org/licenses/gpl.html
 """
@@ -29,10 +28,10 @@ def main(script, filename=None):
     t = read_data(fp)
     counter = Counter(t)
 
-    xs = list(counter.keys())
+    xs = counter.keys()
     xs.sort()
 
-    ys = np.cumsum(list(counter.values())).astype(float)
+    ys = np.cumsum(counter.values()).astype(float)
     ys /= ys[-1]
 
     options = dict(linewidth=3, alpha=0.5)

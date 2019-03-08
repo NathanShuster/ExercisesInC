@@ -1,7 +1,14 @@
 /*  Implementations of several methods for generating random floating-point.
-
 Copyright 2016 Allen B. Downey
 License: MIT License https://opensource.org/licenses/MIT
+*/
+
+/*
+2. Shows correct distribution.
+3. Shows correct distribution.
+4. The dummy functions are the fastest (they're not really "random" generators though), followed by random_float
+5. Yes has correct distribution.
+6. random_double significantly faster than my_random_double
 */
 
 #include <stdlib.h>
@@ -79,6 +86,40 @@ float my_random_float2()
 double my_random_double()
 {
     // TODO: fill this in
+    //Modified Downey Code
+    int64_t x;
+    int64_t mant;
+    int64_t exp = 1022;
+    int64_t mask = 1;
+
+    union {
+        double f;
+        int64_t i;
+    } b;
+
+    // generate random bits until we see the first set bit
+    while (1) {
+      x = (random()<<32) | random();
+      if (x == 0) {
+        exp -= 63; //modified to be bits -1 but I don't really understand this line
+      }
+      else {
+        break;
+      }
+    }
+
+    // find the location of the first set bit and compute the exponent
+    while (x & mask) {
+      mask <<= 1;
+      exp--;
+    }
+
+    // use the remaining bit as the mantissa
+    mant = x >> 11; // exponent
+    b.i = (exp << 52) | mant; // significant
+
+    return b.f;
+
 }
 
 // return a constant (this is a dummy function for time trials)

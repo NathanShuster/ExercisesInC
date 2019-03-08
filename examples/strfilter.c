@@ -46,20 +46,20 @@ char *strfilter3(char *string, char *letters) {
             buffer[j++] = string[i];
         }
     }
-    return buffer;
+    return strdup(buffer);
 }
 
 char *strfilter4(char *string, char *letters) {
     char buffer[100];
     char c;
 
-    while (c = *string++) {
+    while ((c = *string++)) {
         char *ptr = strchr(letters, c);
         if (ptr) {
             strcat(buffer, c);
         }
     }
-    int length = sizeof(buffer);
+    int length = strlen(buffer);
     char *res = (char *) malloc (length * sizeof(char));
     strcpy(buffer, res);
     return res;
