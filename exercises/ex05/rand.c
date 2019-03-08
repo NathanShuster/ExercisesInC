@@ -7,7 +7,7 @@ License: MIT License https://opensource.org/licenses/MIT
 2. Shows correct distribution.
 3. Shows correct distribution.
 4. The dummy functions are the fastest (they're not really "random" generators though), followed by random_float
-5. Yes has correct distribution.
+5. Yes has correct distribution (stored in test3.png).
 6. random_double significantly faster than my_random_double
 */
 
