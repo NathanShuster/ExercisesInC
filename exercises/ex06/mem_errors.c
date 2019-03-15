@@ -21,6 +21,7 @@ int read_element(int *array, int index) {
 
 int main()
 {
+    //I changed vals, commented out lines and fixed minor things to make valgrind find no memory issues.
     //int never_allocated;
     int *free_twice = malloc(sizeof (int));
     int *use_after_free = malloc(sizeof (int));

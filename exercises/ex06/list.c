@@ -54,8 +54,15 @@ void print_list(Node **list) {
 * returns: int or -1 if the list is empty
 */
 int pop(Node **list) {
-    // FILL THIS IN!
-    return 0;
+  Node *curr = *list;
+  if (curr != NULL) { //check if list isn't empty
+    int val = curr->val; //get val to return
+    *list = curr->next; //set head to next Node
+    free(curr); //freeee mem
+    return val;
+  }
+  return -1;
+
 }
 
 
@@ -65,7 +72,13 @@ int pop(Node **list) {
 * val: value to add
 */
 void push(Node **list, int val) {
-    // FILL THIS IN!
+    Node *new_node = malloc(sizeof(Node)); //allocated space
+    new_node = make_node(val, NULL);
+    Node *curr = *list;
+    while (curr->next != NULL) { //run until you hit the last node
+      curr = curr->next;
+    }
+    curr->next = new_node;
 }
 
 
@@ -79,7 +92,25 @@ void push(Node **list, int val) {
 * returns: number of nodes removed
 */
 int remove_by_value(Node **list, int val) {
-    // FILL THIS IN!
+    // Two pointers, one to the current and one to the prev
+    // Prev is so that we can reassign after
+    Node* prev = NULL;
+    Node* curr = *list;
+
+    while(curr != NULL){
+      if(curr->val == val){
+        if (prev == NULL){
+          *list = curr->next; //if node is first
+        }
+        else{
+          prev->next = curr->next; //use pointers to skip current
+        }
+        free(curr); //freee mem
+        return 1;
+      }
+      prev = curr;
+      curr = curr->next;
+    }
     return 0;
 }
 
@@ -91,7 +122,18 @@ int remove_by_value(Node **list, int val) {
 * list: pointer to pointer to Node
 */
 void reverse(Node **list) {
-    // FILL THIS IN!
+  //did this question a few times while preparing for interviews
+  Node* prev = NULL;
+  Node* curr = *list;
+  Node* next = curr->next;
+  while(next != NULL){
+    curr->next = prev;
+    prev = curr;
+    curr = next;
+    next = next->next;
+  }
+  curr->next = prev;
+  *list = curr;
 }
 
 
