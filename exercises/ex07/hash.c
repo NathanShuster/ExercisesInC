@@ -194,10 +194,10 @@ int equal_string (void *s1, void *s2)
 {
     // FILL THIS IN!
     for (;;) {
-      if (*(char*)s1 == '\0' && *(char*)s2 == '\0') {
+      if (*(char*)s1 == '\0' && *(char*)s2 == '\0') { //if we've reached end of both
         return 1;
       }
-      if (*(char*)s1 != *(char*)s2) {
+      if (*(char*)s1 != *(char*)s2) { //if there's a discrepancy
         return 0;
       }
       s1++;
@@ -218,7 +218,7 @@ int equal_hashable(Hashable *h1, Hashable *h2)
 {
     // FILL THIS IN!
 
-    return h1->equal(h1, h2);
+    return h1->equal(h1, h2); //use the equality func defined to compare
 }
 
 
@@ -307,6 +307,7 @@ Node *prepend(Hashable *key, Value *value, Node *rest)
 Value *list_lookup(Node *list, Hashable *key)
 {
     // FILL THIS IN!
+    //Iterate throuh list and return val if key found
     Node *curr = list;
     while (curr != NULL) {
       if (curr->key == key) {
@@ -359,18 +360,18 @@ void print_map(Map *map)
 void map_add(Map *map, Hashable *key, Value *value)
 {
     // FILL THIS IN!
-    int idx = key->hash(key->key) % map->n;
-    map->lists[idx] = prepend(key, value, map->lists[idx]);
+    int idx = key->hash(key->key) % map->n; //find bucket
+    map->lists[idx] = prepend(key, value, map->lists[idx]); //put in bucket
 }
 
 
 /* Looks up a key and returns the corresponding value, or NULL. */
 Value *map_lookup(Map *map, Hashable *key)
 {
-    int idx = key->hash(key->key) % map->n;
+    int idx = key->hash(key->key) % map->n; //get bucket
     Node *curr = map->lists[idx];
     while (curr != NULL) {
-      if (curr->key == key) {
+      if (curr->key == key) { //if key matches return val
         return curr->value;
       }
       curr = curr->next;
