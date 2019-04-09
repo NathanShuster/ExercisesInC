@@ -8,9 +8,9 @@ void print_key_val(gpointer key, gpointer value, gpointer u)
     g_printf("%s : %i\n", (char*)key, GPOINTER_TO_INT(value));
 }
 
-GHashTable* word_count_hash(gchar* contents){
+GHashTable* word_count_hash(gchar* text){
     //do string split to get "words"
-    gchar** words = g_strsplit (contents, " ", -1);
+    gchar** words = g_strsplit (text, " ", -1);
     //intialize a new hashtable
     GHashTable* counts = g_hash_table_new(g_str_hash, g_str_equal);
 
