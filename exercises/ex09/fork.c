@@ -19,6 +19,8 @@ License: MIT License https://opensource.org/licenses/MIT
 // error information
 extern int errno;
 
+int global_test;
+
 
 // get_seconds returns the number of seconds since the
 // beginning of the day, with microsecond precision
@@ -45,6 +47,12 @@ int main(int argc, char *argv[])
     pid_t pid;
     double start, stop;
     int i, num_children;
+    global_test = 10;
+    int stack_test;
+    stack_test = 11;
+    int* heap_test = malloc(sizeof(int));
+    *heap_test = 12;
+
 
     // the first command-line argument is the name of the executable.
     // if there is a second, it is the number of children to create.
@@ -69,6 +77,20 @@ int main(int argc, char *argv[])
             perror(argv[0]);
             exit(1);
         }
+
+        global_test *= 2;
+        stack_test *= 2;
+        *heap_test *= 2;
+
+        //printf("Process %d: global_test = %d\n", i, global_test);
+        //printf("Process %d: stack_test = %d\n", i, stack_test);
+        //printf("Process %d: heap_test = %d\n", i, *heap_test);
+
+        /* I tested whether the global, stack and heap were shared by printing variables
+        that were defined globally, on the heap, and on the stack. Each process doubled the value on the last,
+        leading me to believe that forked processes share stack/global/heap variables. Likewise, as far as I can tell,
+        they also share code and static segments.*/
+
 
         /* see if we're the parent or the child */
         if (pid == 0) {
