@@ -22,6 +22,8 @@ void error(char *msg)
 
 int main(int argc, char *argv[])
 {
+    int status;
+
     if (argc < 2) {
         fprintf(stderr, "Usage: %s <search phrase>\n", argv[0]);
         return 1;
@@ -38,15 +40,49 @@ int main(int argc, char *argv[])
     int num_feeds = 5;
     char *search_phrase = argv[1];
     char var[255];
+    int pid;
 
     for (int i=0; i<num_feeds; i++) {
-        sprintf(var, "RSS_FEED=%s", feeds[i]);
+        //The program only examines the first feed because execle exits the program. Therefore, we need to use threading to make sure all feeds are printed.
+        sprintf(var, "RSS_FEED=%s\n", feeds[i]);
         char *vars[] = {var, NULL};
 
-        int res = execle(PYTHON, PYTHON, SCRIPT, search_phrase, NULL, vars);
-        if (res == -1) {
-            error("Can't run script.");
+        pid_t pid = fork();
+
+        if (pid == -1) {
+            fprintf(stderr, "fork failed: %s\n", strerror(errno));
+            perror(argv[0]);
+            exit(1);
         }
+        int res = 0;
+
+        if (!pid) {
+          if (execle(PYTHON, PYTHON, SCRIPT, search_phrase, NULL, vars) == -1) {
+            fprintf(stderr, "Can't run script: %s", strerror(errno));
+            exit(1);
+          }
+
+        }
+
     }
+
+    for (int i=0; i<num_feeds; i++) {
+        pid = wait(&status);
+
+        if (pid == -1) {
+            fprintf(stderr, "wait failed: %s\n", strerror(errno));
+            perror(argv[0]);
+            exit(1);
+        }
+
+        // check the exit status of the child
+        status = WEXITSTATUS(status);
+        //printf("Main exiting %d.\n", status);
+    }
+    // compute the elapsed time
+    //stop = get_seconds();
+    //printf("Elapsed time = %f seconds.\n", stop - start);
+
+    exit(0);
     return 0;
 }

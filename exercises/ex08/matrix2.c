@@ -54,11 +54,22 @@ void print_matrix(Matrix *matrix) {
     }
 }
 
+int comparator(const void *a, const void *b)
+{
+    return (**(double**)b - **(double**)a);
+}
+
+
+
 /* Sort rows in descending order by first element.
 */
 void sort_matrix_rows(Matrix *matrix) {
-    // TODO: Write this function
+    int row_count = matrix->num_rows;
+    int size_of_row = sizeof(double *);
+    qsort(matrix->rows, row_count, size_of_row, comparator);
 }
+
+
 
 /* Perform row reduction.
 
@@ -79,9 +90,10 @@ int main () {
     Matrix *matrix = make_matrix(3, 4);
     for (int i=0; i<matrix->num_rows; i++) {
         for (int j=0; j<matrix->num_cols; j++) {
-            matrix->rows[i][j] = i + j + 1;
+            matrix->rows[i][j] = i + j + 3;
         }
     }
+
 
     print_matrix(matrix);
     printf("sorting...\n");
@@ -92,6 +104,7 @@ int main () {
     reduce_matrix_rows(matrix, 1, 0);
     reduce_matrix_rows(matrix, 2, 0);
     print_matrix(matrix);
+
 
     //free_matrix(matrix);
 }

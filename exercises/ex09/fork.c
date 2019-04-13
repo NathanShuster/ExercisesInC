@@ -5,6 +5,14 @@ License: MIT License https://opensource.org/licenses/MIT
 
 */
 
+
+/*
+See lines 94-99
+I tested whether the global, stack and heap were shared by printing variables
+that were defined globally, on the heap, and on the stack. Each process doubled the value on the last,
+but were unaffected by a delay before printing, leading me to believe that forked processes copy but do not share stack/global/heap
+variables. They do appear to share code and static segments*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -13,6 +21,7 @@ License: MIT License https://opensource.org/licenses/MIT
 #include <sys/time.h>
 #include <sys/types.h>
 #include <wait.h>
+#include <time.h>
 
 
 // errno is an external global variable that contains
@@ -29,6 +38,13 @@ double get_seconds() {
 
     gettimeofday(tv, NULL);
     return tv->tv_sec + tv->tv_usec / 1e6;
+}
+
+void delay(unsigned int milliseconds){
+
+    clock_t start = clock();
+
+    while((clock() - start) * 1000 / CLOCKS_PER_SEC < milliseconds);
 }
 
 
@@ -82,14 +98,13 @@ int main(int argc, char *argv[])
         stack_test *= 2;
         *heap_test *= 2;
 
+
+        //if (i == 1) {
+        //  delay(5000);
+        //}
         //printf("Process %d: global_test = %d\n", i, global_test);
         //printf("Process %d: stack_test = %d\n", i, stack_test);
         //printf("Process %d: heap_test = %d\n", i, *heap_test);
-
-        /* I tested whether the global, stack and heap were shared by printing variables
-        that were defined globally, on the heap, and on the stack. Each process doubled the value on the last,
-        leading me to believe that forked processes share stack/global/heap variables. Likewise, as far as I can tell,
-        they also share code and static segments.*/
 
 
         /* see if we're the parent or the child */

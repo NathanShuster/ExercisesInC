@@ -1,10 +1,3 @@
-/* Example code for Exercises in C.
-
-Copyright 2016 Allen Downey
-License: Creative Commons Attribution-ShareAlike 3.0
-
-*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -30,7 +23,10 @@ Matrix *make_matrix(int num_rows, int num_cols) {
 /* Free a matrix.
 */
 void free_matrix(Matrix *matrix) {
-    // TODO: Fill this in.
+    for (int i=0; i<matrix->num_rows;i++){
+        free(matrix->rows[i]);
+    }
+    free(matrix);
 }
 
 /* Print a row of a matrix.
@@ -51,12 +47,16 @@ void print_matrix(Matrix *matrix) {
 }
 
 /* Perform row reduction.
-
 Subtract a multiple of row j from row i so that the first element
 of row i is 0.
 */
 void reduce_matrix_rows(Matrix *matrix, int i, int j) {
-    // TODO: Fill this in.
+    double i_first = matrix->rows[i][0];
+    double j_first = matrix->rows[j][0];
+    double s = i_first / j_first;
+    for(int k=0;k<matrix->num_cols;k++){
+        matrix->rows[i][k] = matrix->rows[i][k] - s*(matrix->rows[j][k]);
+    }
 }
 
 int main () {
