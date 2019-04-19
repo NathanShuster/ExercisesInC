@@ -21,9 +21,6 @@ sys	0m0.193s
 synchronization imposes an overhead of about 4x slower.
 */
 
-real	0m0.050s
-user	0m0.086s
-sys	0m0.004s
 
 #include <stdio.h>
 #include <stdlib.h>
