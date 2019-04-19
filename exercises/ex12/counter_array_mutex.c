@@ -18,7 +18,7 @@ real	0m0.206s
 user	0m0.209s
 sys	0m0.193s
 
-About 4x faster!
+synchronization imposes an overhead of about 4x slower.
 */
 
 real	0m0.050s
