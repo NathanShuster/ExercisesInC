@@ -5,11 +5,16 @@ License: GNU GPLv3
 
 */
 
+/* While the program is not threadsafe, the final value appears to be correct.
+I see evidence of concurrency in the output prints (sometimes stagnant or jumping by more than one) but final values are consistently correct, regardless
+of the number of child threads.
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
 
-#define NUM_CHILDREN 5
+#define NUM_CHILDREN 10
 
 /* Print an error message and exit.
 */

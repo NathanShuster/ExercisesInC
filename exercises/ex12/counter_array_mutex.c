@@ -5,6 +5,26 @@ License: GNU GPLv3
 
 */
 
+/*
+Times for counter_array
+
+real	0m0.050s
+user	0m0.086s
+sys	0m0.004s
+
+Times for counter_array_mutex
+
+real	0m0.206s
+user	0m0.209s
+sys	0m0.193s
+
+About 4x faster!
+*/
+
+real	0m0.050s
+user	0m0.086s
+sys	0m0.004s
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
@@ -86,7 +106,7 @@ void child_code(Shared *shared)
         shared->counter++;
 
         if (shared->counter % 10000 == 0) {
-            printf("%d\n", shared->counter);
+            //printf("%d\n", shared->counter);
         }
         mutex_unlock(shared->mutex);
     }

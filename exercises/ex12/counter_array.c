@@ -5,6 +5,9 @@ License: GNU GPLv3
 
 */
 
+/*2. There are 100k+ synchronization errors each time I run this program due to not being threadsafe.
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
@@ -79,7 +82,7 @@ void child_code(Shared *shared)
         shared->counter++;
 
         if (shared->counter % 10000 == 0) {
-            printf("%d\n", shared->counter);
+            //printf("%d\n", shared->counter);
         }
     }
 }
