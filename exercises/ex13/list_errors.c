@@ -161,6 +161,8 @@ int insert_by_index(Node **head, int val, int index) {
     }
     if (node == NULL) return -1;
     node->next = make_node(val, node->next);
+
+
     return 0;
 }
 
@@ -178,6 +180,15 @@ Node *make_something() {
     return node3;
 }
 
+void free_ll(Node *head) {
+    //function to free a linked list
+    Node* curr = head;
+    while (curr != NULL) {
+      Node* placeholder = curr->next;
+      free(curr);
+      curr = placeholder;
+  }
+}
 
 int main() {
     // make a list of even numbers
@@ -207,7 +218,10 @@ int main() {
     print_list(&empty);
 
     Node *something = make_something();
-    free(something);
+
+    free_ll(something);
+    free_ll(test_list);
+    free_ll(empty);
 
     return 0;
 }
